@@ -1,3 +1,3 @@
 #mintty2winterm
 
-Just run `gradle run -Dargs="path/to/theme/file"`.
+Just run `gradle run --args="path/to/theme/file"`.

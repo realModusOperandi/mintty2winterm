@@ -10,11 +10,11 @@ import java.util.Properties
 fun main(args: Array<String>) {
     when (args.size) {
         0 -> println("Specify a path to convert")
-        else -> convertThemeFile(File(args[0]))
+        else -> println(convertThemeFile(File(args[0])))
     }
 }
 
-fun convertThemeFile(file: File) {
+fun convertThemeFile(file: File): String {
     val themeProps = Properties()
     themeProps.load(FileReader(file))
     themeProps.setProperty("name", file.name)
@@ -22,7 +22,7 @@ fun convertThemeFile(file: File) {
         mapName(prop.key.toString()) to rgbToHex(prop.value.toString())
     }.filter() { prop -> prop.first != "\"cursorColor\""
     }.toMap().toSortedMap()
-    println(newProps.toString().replace("=", " : ").replace(", ", ",\n\t").replace("{", "{\n\t").replace("}", "\n}"))
+    return newProps.toString().replace("=", " : ").replace(", ", ",\n\t").replace("{", "{\n\t").replace("}", "\n}")
 }
 
 fun rgbToHex(rgb: String): String {

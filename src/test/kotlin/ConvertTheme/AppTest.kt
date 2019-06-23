@@ -5,10 +5,55 @@ package ConvertTheme
 
 import kotlin.test.Test
 import kotlin.test.assertNotNull
+import kotlin.test.assertEquals
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.io.File;
 
 class AppTest {
-    @Test fun testAppHasAGreeting() {
-        val classUnderTest = App()
-        assertNotNull(classUnderTest.greeting, "app should have a greeting")
-    }
+	@Test fun testRgbToHexValid() {
+		assertEquals("\"#1B0E13\"", rgbToHex("27,14,19"), "Incorrect output on valid color data")
+	}
+
+	@Test fun testRgbToHexInvalid() {
+		assertEquals("\"test string\"", rgbToHex("test string"), "Incorrect output on invalid color data")
+	}
+
+	@Test fun testMapNameValid() {
+		assertEquals("\"brightWhite\"", mapName("BoldWhite"), "Incorrect output on valid color setting name")
+	}
+
+	@Test fun testMapNameInvalid() {
+		assertEquals("\"\"", mapName("bad test name"), "Incorrect output on invalid color setting name")
+	}
+
+	@Test fun testThemeConversion() {
+		val expected = 
+		"""
+		{
+			"background" : "#021B21",
+			"black" : "#032C36",
+			"blue" : "#2E3340",
+			"brightBlack" : "#065F73",
+			"brightBlue" : "#61778D",
+			"brightCyan" : "#9ED9D8",
+			"brightGreen" : "#A2D9B1",
+			"brightPurple" : "#FF99A1",
+			"brightRed" : "#EF5847",
+			"brightWhite" : "#F6F6C9",
+			"brightYellow" : "#BEB090",
+			"cyan" : "#44B5B1",
+			"foreground" : "#E8DFD6",
+			"green" : "#7CBF9E",
+			"name" : "Navy and Ivory",
+			"purple" : "#FF5879",
+			"red" : "#C2454E",
+			"white" : "#F2F1B9",
+			"yellow" : "#8A7A63"
+		}
+		""".trimIndent()
+		assertEquals(expected, convertThemeFile(File("src/test/resources/Navy and Ivory")), "Converted output did not match")
+	}
+	
 }
